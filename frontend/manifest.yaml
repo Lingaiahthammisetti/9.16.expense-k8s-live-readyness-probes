@@ -120,6 +120,13 @@ spec:
       containers:
       - name: frontend
         image: joindevops/frontend:v1.0    ## lingadevops/frontend:v1.0
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "150m"
+            memory: "256Mi"
         #envFrom:
         #- configMapRef:
         #    name: frontend
@@ -142,18 +149,16 @@ metadata:
   name: frontend
   namespace: expense
 spec:
-  type: LoadBalancer
+  #type: LoadBalancer
   selector:
-      component: frontend
-      project: expense
-      tier: web
+    component: frontend
+    project: expense
+    tier: web
   ports:
   - protocol: TCP
     port: 80 #service-port
-    targetPort: 8080 #target-port
-    
-
-  ---
+    targetPort: 8080 #target-port  
+---
 apiVersion: elbv2.k8s.aws/v1beta1
 kind: TargetGroupBinding
 metadata:
