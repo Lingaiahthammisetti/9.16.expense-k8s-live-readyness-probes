@@ -130,6 +130,7 @@ spec:
         #envFrom:
         #- configMapRef:
         #    name: frontend
+
         volumeMounts:
         - name: nginx-conf
           mountPath: /etc/nginx/nginx.conf  #we should mount the nginx.conf file to container.
@@ -149,7 +150,7 @@ metadata:
   name: frontend
   namespace: expense
 spec:
-  #type: LoadBalancer
+  type: LoadBalancer
   selector:
     component: frontend
     project: expense
