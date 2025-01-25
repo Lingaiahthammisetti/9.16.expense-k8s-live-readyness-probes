@@ -119,14 +119,14 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: joindevops/frontend:v1.0    ## lingadevops/frontend:v1.0
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "128Mi"
-          limits:
-            cpu: "150m"
-            memory: "256Mi"
+        image: lingadevops/frontend:v1.0    ## lingadevops/frontend:v1.0
+        # resources:
+        #   requests:
+        #     cpu: "100m"
+        #     memory: "128Mi"
+        #   limits:
+        #     cpu: "150m"
+        #     memory: "256Mi"
         #envFrom:
         #- configMapRef:
         #    name: frontend
@@ -159,14 +159,14 @@ spec:
     port: 80 #service-port
     targetPort: 8080 #target-port  
 ---
-apiVersion: elbv2.k8s.aws/v1beta1
-kind: TargetGroupBinding
-metadata:
-  name: frontend
-  namespace: expense
-spec:
-  serviceRef:
-    name: frontend # rroute traffic to the awesome-service
-    port: 80
-  targetGroupARN: arn:aws:elasticloadbalancing:us-east-1:730335449147:targetgroup/k8s-expense-frontend-b57f8d7e97/7e1c0e7b41419836
+# apiVersion: elbv2.k8s.aws/v1beta1
+# kind: TargetGroupBinding
+# metadata:
+#   name: frontend
+#   namespace: expense
+# spec:
+#   serviceRef:
+#     name: frontend # rroute traffic to the awesome-service
+#     port: 80
+#   targetGroupARN: arn:aws:elasticloadbalancing:us-east-1:730335449147:targetgroup/k8s-expense-frontend-b57f8d7e97/7e1c0e7b41419836
 

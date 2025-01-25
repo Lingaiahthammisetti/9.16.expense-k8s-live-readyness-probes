@@ -32,20 +32,20 @@ spec:
         project: expense
         tier: app
     spec:
-      initContainers:
-      - name: init-myservice
-        image: busybox:1.28
-        command: ['sh', '-c', "until nslookup mysql; do echo waiting for myservice; sleep 2; done"]
+      # initContainers:
+      # - name: init-myservice
+      #   image: busybox:1.28
+      #   command: ['sh', '-c', "until nslookup mysql; do echo waiting for myservice; sleep 2; done"]
       containers:
       - name: backend
-        image: joindevops/backend:v1.0
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "128Mi"
-          limits:
-            cpu: "150m"
-            memory: "256Mi"
+        image: lingadevops/backend:v1.0
+        # resources:s
+          # requests:
+          #   cpu: "100m"
+          #   memory: "128Mi"
+          # limits:
+          #   cpu: "150m"
+          #   memory: "256Mi"
         livenessProbe:
           httpGet:
             path: /health
