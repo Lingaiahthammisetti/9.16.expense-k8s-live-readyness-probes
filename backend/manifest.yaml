@@ -38,7 +38,7 @@ spec:
       #   command: ['sh', '-c', "until nslookup mysql; do echo waiting for myservice; sleep 2; done"]
       containers:
       - name: backend
-        image: lingadevops/backend:v1.0
+        image: lingadevops/backend:v1.1
         # resources:s
           # requests:
           #   cpu: "100m"
