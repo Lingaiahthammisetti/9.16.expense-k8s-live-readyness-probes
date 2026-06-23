@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend
+  namespace: expense
+data:
+  DB_HOST: mysql # mysql component service name
+  #DB_HOST: db-dev.lingaiah.online
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: backend
+  namespace: expense
+  # these labels are deployment related labels
+  labels:
+    component: backend
+    project: expense
+    tier: app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: backend
+      project: expense
+      tier: app
+  # pod definition
+  template:
+    metadata:
+      labels:
+        component: backend
+        project: expense
+        tier: app
+    spec:
+      containers:
+      - name: backend
+        image: lingadevops/backend:v1.1
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          failureThreshold: 2
+          periodSeconds: 5
+          initialDelaySeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          failureThreshold: 2
+          periodSeconds: 5
+          initialDelaySeconds: 30
+        envFrom:
+        - configMapRef:
+            name: backend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: expense
+spec:
+  selector:
+    component: backend
+    project: expense
+    tier: app
+  ports:
+  - protocol: TCP
+    port: 8080 #service-port
+    targetPort: 8080 #target-port
+           
+
+
+# Liveness Probe and Readiness Probe are used in Kubernetes to monitor the health and availability of containers:
+# Liveness Probe checks if the container is alive. If it fails, Kubernetes automatically restarts the container.
+# 👉 Purpose: Detect and recover from application crashes or hangs.
+
+# Readiness Probe checks if the container is ready to handle traffic. If it fails, the container is removed from the load balancer.
+# 👉 Purpose: Prevent sending requests to an unready or initializing service.
+# Both help ensure high availability and smooth operation of applications in a Kubernetes cluster.
